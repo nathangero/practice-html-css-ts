@@ -21,8 +21,8 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 const list = document.querySelector<HTMLUListElement>("#list")
 const form = document.querySelector<HTMLFormElement>("#new-task-form")
 const input = document.querySelector<HTMLInputElement>("#new-task-title")
-const tasks: Task[] = loadTasks()
-tasks.forEach(addListItem)
+let tasks: Task[] = loadTasks()
+renderTasks();
 
 form?.addEventListener("submit", event => {
   event.preventDefault();
@@ -43,6 +43,11 @@ form?.addEventListener("submit", event => {
   input.value = "";
 })
 
+function renderTasks() {
+  if (list) { list.innerHTML = ""; }
+  tasks.forEach(addListItem);
+}
+
 
 function addListItem(task: Task) {
   const item = document.createElement("li");
@@ -50,14 +55,27 @@ function addListItem(task: Task) {
   const checkbox = document.createElement("input");
   checkbox.addEventListener("change", () => {
     task.completed = checkbox.checked
-    saveTasks()
+    saveTasks();
   });
   checkbox.type = "checkbox";
   checkbox.checked = task.completed;
 
-  label.append(checkbox, task.title);
+  const deleteButton = document.createElement("button");
+  deleteButton.setAttribute("id", task.id);
+  deleteButton.innerHTML = "X";
+  deleteButton.addEventListener("click", () => {
+    deleteTask(deleteButton.id);
+    saveTasks();
+    renderTasks();
+  });
+
+  label.append(checkbox, task.title, deleteButton);
   item.append(label);
   list?.append(item);
+}
+
+function deleteTask(id: string) {
+  tasks = tasks.filter(task => task.id !== id);
 }
 
 function saveTasks() {
@@ -66,7 +84,7 @@ function saveTasks() {
 
 function loadTasks(): Task[] {
   const tasks = localStorage.getItem("TASKS");
-
+  console.log("no tasks found");
   // If no tasks, return an empty array
   if (tasks == null) return []
 
