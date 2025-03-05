@@ -44,7 +44,7 @@ form?.addEventListener("submit", event => {
 })
 
 /// Refreshes the list of tasks
-function renderTasks() {
+export function renderTasks() {
   if (list) { list.innerHTML = ""; }
   tasks.forEach(addListItem);
 }
