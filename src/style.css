@@ -94,6 +94,9 @@ button:focus-visible {
   padding: 0;
 }
 
+form input {
+  margin-right: 10px;
+}
 
 .column {
   display: flex;
