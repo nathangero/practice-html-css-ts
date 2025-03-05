@@ -6,7 +6,7 @@ import { renderTasks } from "../main";
 export function TaskForm(): HTMLDivElement {
   const container = document.createElement("div");
   const h1 = document.createElement("h1");
-  h1.textContent = "ToDo List";
+  h1.textContent = "Todo List";
 
   const form = document.createElement("form");
   form.id = "new-task-form";
