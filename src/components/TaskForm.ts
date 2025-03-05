@@ -1,6 +1,7 @@
 import { v4 as uuidV4 } from "uuid";
 import { Task, tasks } from "../utils/tasks";
 import { saveTasks } from "../utils/storage";
+import { renderTasks } from "../main";
 
 export function TaskForm(): HTMLFormElement {
   const form = document.createElement("form");
@@ -9,6 +10,12 @@ export function TaskForm(): HTMLFormElement {
   const input = document.createElement("input");
   input.type = "text";
   input.id = "new-task-title";
+
+  const button = document.createElement("button");
+  button.type = "submit";
+  button.innerText = "Add";
+
+  form.append(input, button);
 
   form?.addEventListener("submit", event => {
     event.preventDefault();
@@ -25,7 +32,7 @@ export function TaskForm(): HTMLFormElement {
 
     tasks.push(newTask);
     saveTasks();
-
+    renderTasks();
     input.value = "";
   })
 
