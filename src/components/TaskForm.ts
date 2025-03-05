@@ -3,7 +3,11 @@ import { Task, tasks } from "../utils/tasks";
 import { saveTasks } from "../utils/storage";
 import { renderTasks } from "../main";
 
-export function TaskForm(): HTMLFormElement {
+export function TaskForm(): HTMLDivElement {
+  const container = document.createElement("div");
+  const h1 = document.createElement("h1");
+  h1.textContent = "ToDo List";
+
   const form = document.createElement("form");
   form.id = "new-task-form";
 
@@ -36,5 +40,6 @@ export function TaskForm(): HTMLFormElement {
     input.value = "";
   })
 
-  return form;
+  container.append(h1, form);
+  return container;
 }
