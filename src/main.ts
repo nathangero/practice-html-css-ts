@@ -10,11 +10,11 @@ type Task = {
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
-    <ul id="list"></ul>
     <form id="new-task-form">
       <input type="text" id="new-task-title">
       <button type="submit">Add</button>
     </form>
+    <ul id="list"></ul>
   </div>
 `
 
@@ -43,6 +43,7 @@ form?.addEventListener("submit", event => {
   input.value = "";
 })
 
+/// Refreshes the list of tasks
 function renderTasks() {
   if (list) { list.innerHTML = ""; }
   tasks.forEach(addListItem);
@@ -50,8 +51,14 @@ function renderTasks() {
 
 
 function addListItem(task: Task) {
+  // Create a list item
   const item = document.createElement("li");
-  const label = document.createElement("label");
+
+  // Create a div that will evenly space the elements
+  const taskItem = document.createElement("div");
+  taskItem.setAttribute("class", "column");
+
+  // Create the checkbox
   const checkbox = document.createElement("input");
   checkbox.addEventListener("change", () => {
     task.completed = checkbox.checked
@@ -60,28 +67,37 @@ function addListItem(task: Task) {
   checkbox.type = "checkbox";
   checkbox.checked = task.completed;
 
+  // Create the title of the todo task
+  const title = document.createElement("p");
+  title.innerHTML = task.title;
+
+  // Create the delete button
   const deleteButton = document.createElement("button");
   deleteButton.setAttribute("id", task.id);
-  deleteButton.innerHTML = "X";
+
   deleteButton.addEventListener("click", () => {
     deleteTask(deleteButton.id);
     saveTasks();
     renderTasks();
   });
 
-  label.append(checkbox, task.title, deleteButton);
-  item.append(label);
+  // Append everything to the list element
+  taskItem.append(checkbox, title, deleteButton);
+  item.append(taskItem);
   list?.append(item);
 }
 
+/// Deletes a task from `tasks`
 function deleteTask(id: string) {
   tasks = tasks.filter(task => task.id !== id);
 }
 
+/// Saves `tasks` into local storage
 function saveTasks() {
   localStorage.setItem("TASKS", JSON.stringify(tasks));
 }
 
+/// Fetchs `tasks` from local storage
 function loadTasks(): Task[] {
   const tasks = localStorage.getItem("TASKS");
   console.log("no tasks found");
