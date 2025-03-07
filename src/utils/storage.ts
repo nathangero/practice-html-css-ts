@@ -12,10 +12,15 @@ export function saveTasks() {
 
 /// Fetchs `tasks` from local storage
 export function loadTasks(): Task[] {
-  const tasks = localStorage.getItem("TASKS");
-  console.log("no tasks found");
-  // If no tasks, return an empty array
-  if (tasks == null) return []
+  try {
+    const tasks = localStorage.getItem("TASKS");
+    // console.log("no tasks found");
+    // If no tasks, return an empty array
+    if (tasks == null) return []
 
-  return JSON.parse(tasks);
+    return JSON.parse(tasks);
+  } catch {
+    // console.log("@loadTasks catch")
+    return [];
+  }
 }
