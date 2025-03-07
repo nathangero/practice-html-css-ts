@@ -23,13 +23,14 @@ export function TaskForm(): HTMLDivElement {
 
   form?.addEventListener("submit", event => {
     event.preventDefault();
+    const userInput = input?.value.trim();
 
     // Make sure the input isn't empty
-    if (input?.value == "" || input?.value == null) return
+    if (userInput == "" || userInput == null) return
 
     const newTask: Task = {
       id: uuidV4(),
-      title: input.value,
+      title: userInput,
       completed: false,
       createdAt: new Date()
     }
