@@ -19,6 +19,11 @@ export function TaskForm(): HTMLDivElement {
   button.type = "submit";
   button.innerText = "Add";
 
+  const alert = document.createElement("h3");
+  alert.setAttribute("class", "input-error");
+  alert.textContent = "Input field can't be blank"
+  alert.setAttribute("class", "input-error hidden");
+
   form.append(input, button);
 
   form?.addEventListener("submit", event => {
@@ -26,7 +31,16 @@ export function TaskForm(): HTMLDivElement {
     const userInput = input?.value.trim();
 
     // Make sure the input isn't empty
-    if (userInput == "" || userInput == null) return
+    if (userInput == "" || userInput == null) {
+      // console.log("blank input");
+      input.value = ""; // Reset the input
+      alert.setAttribute("class", "input-error visible");
+      return;
+    } else {
+      alert.setAttribute("class", "input-error hidden");
+    }
+
+
 
     const newTask: Task = {
       id: uuidV4(),
@@ -41,6 +55,6 @@ export function TaskForm(): HTMLDivElement {
     input.value = "";
   })
 
-  container.append(h1, form);
+  container.append(h1, form, alert);
   return container;
 }

@@ -147,7 +147,17 @@ li.dragging {
   height: 40px;
 }
 
+.input-error {
+  color: red;
+}
 
+.hidden {
+  visibility: hidden;
+}
+
+.visible {
+  visibility: visible;
+}
 
 
 @media (prefers-color-scheme: light) {
